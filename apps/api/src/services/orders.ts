@@ -15,6 +15,7 @@ export type StoredOrder = {
 };
 
 export interface OrderRepository {
+  findTableName(tableId: string): Promise<string | undefined>;
   list(): Promise<StoredOrder[]>;
   findActiveByTable(tableId: string): Promise<StoredOrder | undefined>;
   findByIdempotencyKey(key: string): Promise<{ batchType: "original" | "added_later"; itemIds: string[] } | undefined>;
@@ -27,6 +28,9 @@ export class InMemoryOrderRepository implements OrderRepository {
   private orders = new Map<string, StoredOrder>();
   private items = new Map<string, StoredItem>();
   private keys = new Map<string, { batchType: "original" | "added_later"; itemIds: string[] }>();
+  private tableNames = new Map<string, string>();
+  setTableName(tableId: string, name: string) { this.tableNames.set(tableId, name); }
+  async findTableName(tableId: string) { return this.tableNames.get(tableId); }
   async list() { return [...this.orders.values()]; }
   async findActiveByTable(tableId: string) { return [...this.orders.values()].find((o) => o.tableId === tableId); }
   async findByIdempotencyKey(key: string) { return this.keys.get(key); }
@@ -70,6 +74,7 @@ export class OrderService {
     const orders = await this.repository.list();
     return Promise.all(orders.map(async (order) => ({
       ...order,
+      tableName: await this.repository.findTableName(order.tableId) ?? order.tableId,
       batches: await Promise.all(order.batches.map(async (batch) => ({
         type: batch.type,
         items: (await Promise.all(batch.itemIds.map((id) => this.repository.findItem(id)))).filter(Boolean),

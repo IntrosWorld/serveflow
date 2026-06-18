@@ -2,9 +2,14 @@ import { and, eq, inArray, ne } from "drizzle-orm";
 import type { OrderRepository, StoredItem, StoredOrder } from "../services/orders";
 import type { Database } from "./client";
 import { menuItems, orderBatches, orderItems, orders } from "./schema";
+import { tables } from "./schema";
 
 export class DrizzleOrderRepository implements OrderRepository {
   constructor(private db: Database) {}
+  async findTableName(tableId: string) {
+    const [table] = await this.db.select({ name: tables.name }).from(tables).where(eq(tables.id, tableId)).limit(1);
+    return table?.name;
+  }
   async list(): Promise<StoredOrder[]> {
     const rows = await this.db.select().from(orders).where(ne(orders.status, "completed"));
     return Promise.all(rows.map((order) => this.hydrate(order.id, order.tableId)));

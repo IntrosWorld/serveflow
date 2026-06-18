@@ -8,6 +8,18 @@ const firstItem = {
 };
 
 describe("OrderService", () => {
+  it("includes the display table name in the kitchen queue", async () => {
+    const repo = new InMemoryOrderRepository();
+    repo.setTableName("22222222-2222-4222-8222-222222222222", "T08");
+    const service = new OrderService(repo);
+    await service.submit({
+      tableId: "22222222-2222-4222-8222-222222222222",
+      idempotencyKey: "table-name-order",
+      items: [firstItem],
+    });
+    expect((await service.list())[0].tableName).toBe("T08");
+  });
+
   it("creates the first batch as an original order", async () => {
     const service = new OrderService(new InMemoryOrderRepository());
     const result = await service.submit({
