@@ -133,3 +133,47 @@ Menu name and price are copied into each order item so historical orders remain 
 ## Initial delivery boundary
 
 The first release includes waiter and chef roles, table management, chef-managed menus, live order handling, added-later batches, and push notifications. Customer ordering, payments, billing, inventory, analytics, reservations, and authenticated staff accounts are intentionally deferred.
+
+## Development setup
+
+Prerequisites: Node.js 22+, Android Studio or an Android device with Expo Go, a Neon PostgreSQL project, and an Expo account for push notifications.
+
+```powershell
+npm install
+Copy-Item .env.example .env
+npm run dev --workspace @restaurant/api
+npm run start --workspace @restaurant/mobile
+```
+
+Set `DATABASE_URL` to the pooled Neon connection string. Set `EXPO_PUBLIC_API_URL` and `EXPO_PUBLIC_SOCKET_URL` to the API address reachable from the Android device. For a physical phone, do not use `localhost`; use the computer's LAN IP or a deployed HTTPS API.
+
+Generate and apply the Neon schema:
+
+```powershell
+npm run db:generate --workspace @restaurant/api
+npm run db:migrate --workspace @restaurant/api
+```
+
+The current API includes the tested order domain, Drizzle/Neon schema, REST entry points, and Socket.IO event delivery. Connect production repositories to the included Drizzle schema before deployment; local development currently uses the in-memory repository so the application can run without database credentials.
+
+## Android build
+
+Install and authenticate the EAS CLI, add the Expo project ID to the Expo configuration, then build:
+
+```powershell
+npm install --global eas-cli
+eas login
+Set-Location apps/mobile
+eas build:configure
+eas build --platform android --profile preview
+```
+
+The preview profile can be configured to produce an installable APK. Production push notifications require a real device and Android notification credentials configured in the Expo project.
+
+## Verification
+
+```powershell
+npm test
+npm run typecheck
+npx expo-doctor apps/mobile
+```
