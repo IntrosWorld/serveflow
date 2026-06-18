@@ -3,7 +3,11 @@
   "build": {
     "preview": {
       "distribution": "internal",
-      "android": { "buildType": "apk" }
+      "android": { "buildType": "apk" },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://serveflow-nhp2.onrender.com",
+        "EXPO_PUBLIC_SOCKET_URL": "https://serveflow-nhp2.onrender"
+      }
     },
     "production": {
       "android": { "buildType": "app-bundle" }
