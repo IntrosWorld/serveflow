@@ -1,6 +1,6 @@
 import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
-export async function registerForPush(role: "waiter" | "chef") {
+export async function registerForPush(role: "waiter" | "chef" | "admin") {
   const permission = await Notifications.requestPermissionsAsync();
   if (permission.status !== "granted") return null;
   const projectId = Constants.expoConfig?.extra?.eas?.projectId ?? Constants.easConfig?.projectId;

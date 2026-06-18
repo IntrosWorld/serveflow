@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const roleSchema = z.enum(["waiter", "chef", "customer"]);
+export const roleSchema = z.enum(["admin", "waiter", "chef", "customer"]);
 export type Role = z.infer<typeof roleSchema>;
 
 export const itemStatusSchema = z.enum([
@@ -34,11 +34,15 @@ export const createOrderSchema = z.object({
 });
 
 export function canManageMenu(role: Role): boolean {
-  return role === "chef";
+  return role === "chef" || role === "admin";
+}
+
+export function canManageTables(role: Role): boolean {
+  return role === "chef" || role === "waiter" || role === "admin";
 }
 
 export function canEditItem(role: Role, status: ItemStatus): boolean {
-  if (role === "chef") return true;
+  if (role === "chef" || role === "admin") return true;
   return role === "waiter" && status === "pending";
 }
 
@@ -55,7 +59,7 @@ export function transitionItemStatus(
   current: ItemStatus,
   next: ItemStatus,
 ): ItemStatus {
-  if (role !== "chef" || !chefTransitions[current].includes(next)) {
+  if ((role !== "chef" && role !== "admin") || !chefTransitions[current].includes(next)) {
     throw new Error("Invalid item status transition");
   }
   return next;

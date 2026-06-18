@@ -54,3 +54,10 @@ export const devices = pgTable("devices", {
   role: role("role").notNull(),
   enabled: boolean("enabled").notNull().default(true),
 });
+export const orderEvents = pgTable("order_events", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  orderId: uuid("order_id").references(() => orders.id).notNull(),
+  type: text("type").notNull(),
+  actorRole: role("actor_role").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});

@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import type { Role } from "@restaurant/shared";
-type Session = { role?: Role; setRole: (role: Role) => void; clearRole: () => void };
+type Session = { role?: Role; token?: string; name?: string; login: (session: { role: Role; token: string; name: string }) => void; clearRole: () => void };
 export const useSession = create<Session>((set) => ({
-  setRole: (role) => set({ role }),
-  clearRole: () => set({ role: undefined }),
+  login: (session) => set(session),
+  clearRole: () => set({ role: undefined, token: undefined, name: undefined }),
 }));

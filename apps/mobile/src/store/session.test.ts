@@ -2,9 +2,10 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { useSession } from "./session";
 describe("session", () => {
   beforeEach(() => useSession.setState({ role: undefined }));
-  it("selects and clears a role", () => {
-    useSession.getState().setRole("chef");
+  it("stores and clears an authenticated session", () => {
+    useSession.getState().login({ role: "chef", token: "token", name: "Chef" });
     expect(useSession.getState().role).toBe("chef");
+    expect(useSession.getState().token).toBe("token");
     useSession.getState().clearRole();
     expect(useSession.getState().role).toBeUndefined();
   });
