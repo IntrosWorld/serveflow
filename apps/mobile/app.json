@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "ServeFlow",
+    "slug": "serveflow",
+    "scheme": "serveflow",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "android": {
+      "package": "com.serveflow.restaurant",
+      "adaptiveIcon": { "backgroundColor": "#FFF7ED" }
+    },
+    "plugins": ["expo-router", "expo-notifications"],
+    "experiments": { "typedRoutes": true }
+  }
+}
