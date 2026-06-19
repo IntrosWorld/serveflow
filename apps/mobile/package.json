@@ -1,21 +1,24 @@
 {
   "name": "@restaurant/mobile",
   "version": "1.0.0",
-  "main": "expo-router/entry",
+  "main": "index.js",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
+    "android": "expo run:android",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "ios": "expo run:ios"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
     "@restaurant/shared": "*",
     "@tanstack/react-query": "^5.80.10",
     "expo": "~53.0.12",
-    "expo-constants": "~17.1.6",
-    "expo-notifications": "~0.31.3",
-    "expo-router": "~5.1.0",
+    "expo-constants": "~17.1.8",
+    "expo-font": "~13.3.2",
+    "expo-linking": "~7.1.7",
+    "expo-notifications": "~0.31.5",
+    "expo-router": "~5.1.11",
     "expo-status-bar": "~2.2.3",
     "react": "19.0.0",
     "react-native": "0.79.6",
