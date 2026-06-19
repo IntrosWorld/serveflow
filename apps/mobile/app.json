@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "ServeFlow",
+    "slug": "serveflow",
+    "scheme": "serveflow",
+    "version": "1.0.0",
+    "newArchEnabled": false,
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "android": {
+      "package": "com.serveflow.restaurant",
+      "adaptiveIcon": {
+        "backgroundColor": "#FFF7ED"
+      }
+    },
+    "plugins": [
+      [
+        "expo-router",
+        {
+          "root": "apps/mobile/app"
+        }
+      ],
+      "expo-notifications",
+      "expo-font"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "root": "apps/mobile/app"
+      },
+      "eas": {
+        "projectId": "8ba5a3d8-024e-4b92-be8a-f08ff2e1287e"
+      }
+    },
+    "owner": "exquos"
+  }
+}

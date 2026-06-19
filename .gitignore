@@ -8,3 +8,11 @@ coverage/
 *.log
 docs/**/*.md
 .worktrees/
+apk/
+apps/mobile/android/
+apps/mobile/dist-local-test/
+*-ui.xml
+*-ui.txt
+serveflow-fixed.xml
+emulator.log.err
+expo-run.log.err
